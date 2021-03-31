@@ -1,0 +1,42 @@
+type Query {
+    content(id: ID!): Content
+    moreContent: [Content]
+}
+
+# Content type
+type Content {
+    id: ID!
+    title: Title!
+    format: Format!
+    studios: [Studio]
+    staff: [Staff]
+    tags: [Tag]
+    videos: [Video]
+    # If it has a series-wide license
+    license: License
+}
+
+enum Format {
+    SERIES
+    MOVIE
+    SPECIAL
+    OVA
+    ONA
+}
+
+type Title {
+    romaji: String
+    english: String
+    native: String!
+}
+
+type Studio {
+    id: ID!
+    name: String!
+}
+
+enum Tag {
+    ACTION
+    ISEKAI
+    SHOUNEN
+}

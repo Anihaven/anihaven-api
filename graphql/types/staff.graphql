@@ -1,0 +1,24 @@
+type Query {
+    staffMember(id: ID!): Staff
+    staff: [Staff]
+}
+
+# Staff type
+type Staff {
+    id: ID!
+    name: String!
+    content: [Content]
+}
+
+type StaffPosition {
+    position: [Position]!
+    staff: Staff!
+    content: Content!
+}
+
+enum Position {
+    CREATOR
+    DIRECTOR
+    COMPOSITION
+    MUSIC
+}

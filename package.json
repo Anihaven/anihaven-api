@@ -1,0 +1,39 @@
+{
+  "name": "anihaven-api",
+  "version": "0.1.0",
+  "description": "",
+  "author": "Marcus Sand",
+  "license": "MIT",
+  "homepage": "https://github.com/Anihaven/anihaven-api#readme",
+  "private": true,
+  "main": "server.ts",
+  "scripts": {
+    "dev": "nodemon server.ts",
+    "start": "cross-env NODE_ENV=production node server.ts"
+  },
+  "dependencies": {
+    "@koa/router": "^10.0.0",
+    "apollo-server-koa": "^2.21.2",
+    "cross-env": "^5.2.0",
+    "dotenv": "^8.2.0",
+    "graphql": "^15.5.0",
+    "graphql-tools": "^7.0.4",
+    "koa": "^2.13.0",
+    "koa-bodyparser": "^4.3.0",
+    "lodash": "^4.17.21",
+    "mysql2": "^2.2.5",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.3"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.3",
+    "sequelize": "^6.6.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Anihaven/anihaven-api.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Anihaven/anihaven-api/issues"
+  }
+}

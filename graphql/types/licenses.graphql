@@ -1,0 +1,19 @@
+type Query {
+    license(id: ID!): License
+    licenses: [License]
+}
+
+# License type
+type License {
+    id: ID!
+    videos: [Video]!
+    countries: [Country]
+    from_date: Date
+    to_date: Date
+}
+
+enum Country {
+    DENMARK
+    ITALY
+    GERMANY
+}

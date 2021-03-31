@@ -1,0 +1,13 @@
+type Query {
+    video(id: ID!): Video
+    videos: [Video]
+}
+
+# Video type
+type Video {
+    id: ID!
+    name: String!
+    release_date: Date
+    season: Int
+    license: License
+}
