@@ -1,20 +1,25 @@
-const koa = require('koa')
-const koaRouter = require('@koa/router')
-const koaBody = require('koa-bodyparser')
+import koa from 'koa'
+import koaRouter from '@koa/router'
+import koaBody from 'koa-bodyparser'
 import { ApolloServer } from 'apollo-server-koa' // https://www.apollographql.com/docs/apollo-server/v1/servers/koa/
+import dotenv from 'dotenv'
+import { schema } from './graphql/schema.js'
 
 const dev = process.env.NODE_ENV !== 'production'
 if (dev) {
-    require('dotenv').config()  // Load environment variables
+    dotenv.config()  // Load environment variables
 }
 const port = parseInt(process.env.PORT, 10) || 3080
 
 export function createApolloServer() {
     // Import our GraphQL schema
-    const schema = require('./graphql/schema')
+    console.log(schema)
 
     // Create the server running off of our schema
-    const server = new ApolloServer(schema)
+    const server = new ApolloServer({
+        schema: schema,
+        playground: true
+    })
 
     return server
 }
@@ -34,7 +39,7 @@ export function createKoaApp() {
     const apolloServer = createApolloServer()
 
     // Setup app with all the middleware
-    const app = module.exports = new koa()
+    const app = new koa()
         .use(koaBody()) // Body for POST
         .use(async (ctx, next) => {
             await next()
