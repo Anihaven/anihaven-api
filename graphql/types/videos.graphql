@@ -8,6 +8,36 @@ type Video {
     id: ID!
     name: String!
     release_date: Date
+    episode: Int
     season: Int
+    videostorage: [VideoStorage]!
     license: License
+}
+
+type VideoStorage {
+    id: ID!
+    storage: Storage
+    path: String!
+    resolution: Resolution!
+    format: FileFormat!
+}
+
+enum Storage {
+    B2_Anihaven
+}
+
+# GraphQL only supports strings
+enum Resolution {
+    res240
+    res360
+    res480
+    res720
+    res1080
+    res1440
+    res2160
+}
+
+enum FileFormat {
+    mp4
+    mkv
 }

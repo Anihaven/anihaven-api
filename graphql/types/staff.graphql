@@ -11,7 +11,7 @@ type Staff {
 }
 
 type StaffPosition {
-    position: [Position]!
+    position: Position!
     staff: Staff!
     content: Content!
 }

@@ -1,9 +1,8 @@
-import path from 'path'
-import {mergeResolvers} from 'graphql-tools'
-import { loadFilesSync } from 'graphql-tools'
+const path = require('path')
+const { loadFilesSync, mergeResolvers } = require('graphql-tools')
 
-console.log(path.resolve())
+const resolversArray = loadFilesSync(path.join(path.resolve(), './graphql/resolvers'), { extensions: ['cjs', 'js']})
 
-const resolversArray = loadFilesSync(path.join(path.resolve(), './graphql/resolvers'))
+console.log("resolversArray:", resolversArray)
 
-export default mergeResolvers(resolversArray)
+module.exports = mergeResolvers(resolversArray)

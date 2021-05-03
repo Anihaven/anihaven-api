@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
-            type: DataTypes.INT
+            type: DataTypes.INTEGER
         },
         title: {
             allowNull: false,
@@ -18,11 +18,11 @@ module.exports = (sequelize) => {
         },
         episode: {
             allowNull: true,
-            type: DataTypes.INT
+            type: DataTypes.INTEGER
         },
         season: {
             allowNull: true,
-            type: DataTypes.INT
+            type: DataTypes.INTEGER
         }
     }, { sequelize,
         tableName: 'Videos'

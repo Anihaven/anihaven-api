@@ -1,6 +1,8 @@
-import path from 'path'
-import { loadFilesSync, mergeTypeDefs } from 'graphql-tools'
+const path = require('path')
+const { loadFilesSync, mergeTypeDefs } = require('graphql-tools')
 
 const typesArray = loadFilesSync(path.join(path.resolve(), './graphql/types'))
 
-export default mergeTypeDefs(typesArray)
+// console.log("typeArray:", typesArray)
+
+module.exports = mergeTypeDefs(typesArray)

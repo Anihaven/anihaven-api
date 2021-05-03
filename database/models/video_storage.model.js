@@ -10,7 +10,7 @@ module.exports = (sequelize) => {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
-            type: DataTypes.INT
+            type: DataTypes.INTEGER
         },
         // Which storage server the video is on
         storage: {
@@ -24,7 +24,7 @@ module.exports = (sequelize) => {
         },
         resolution: {
             allowNull: false,
-            type: DataTypes.ENUM([240, 360, 480, 720, 1080, 1440, 2160])
+            type: DataTypes.ENUM(['240', '360', '480', '720', '1080', '1440', '2160'])
         },
         format: {
             allowNull: false,

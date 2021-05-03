@@ -1,6 +1,6 @@
 type Query {
-    content(id: ID!): Content
-    moreContent: [Content]
+    getContentByID(id: ID!): Content
+    getAllContent: [Content]
 }
 
 # Content type
@@ -9,7 +9,7 @@ type Content {
     title: Title!
     format: Format!
     studios: [Studio]
-    staff: [Staff]
+    staff: [StaffPosition]
     tags: [Tag]
     videos: [Video]
     # If it has a series-wide license
