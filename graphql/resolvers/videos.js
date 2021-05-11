@@ -6,6 +6,9 @@ module.exports = {
     Video: {
         videostorage(video, args, context) {
             return context.dataSources.contentAPI.getVideoStorageFromVideo(video)
+        },
+        license(video, args, context) {
+            return context.dataSources.contentAPI.getLicensesFromVideo(video)
         }
     }
 }

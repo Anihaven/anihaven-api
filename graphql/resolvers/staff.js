@@ -11,9 +11,9 @@ module.exports = {
         }
     },
     StaffPosition: {
-        staff(staffposition, args, context) {
-            return context.dataSources.contentAPI.getStaffFromStaffPosition(staffposition)
-        }
+        // staff(staffposition, args, context) {
+        //     return context.dataSources.contentAPI.getStaffFromStaffPosition(staffposition)
+        // }
     },
     Staff: {
 

@@ -24,8 +24,14 @@ module.exports = {
         studios(content, args, context) {
             return context.dataSources.contentAPI.getStudiosFromContent(content)
         },
-        staff(content, args, context) {
-            return context.dataSources.contentAPI.getStaffFromContent(content)
+        staffpositions: async (content, args, context) => {
+            const rawStaffPositions = await context.dataSources.contentAPI.getStaffFromContent(content)
+            const staffPositions = []
+            rawStaffPositions.forEach(staffPosition => staffPositions.push({
+                position: staffPosition.dataValues.content_staff.position,
+                staff: staffPosition
+            }))
+            return staffPositions
         },
         tags: async (content, args, context) => {
             const rawTags = await context.dataSources.contentAPI.getTagsFromContent(content)
