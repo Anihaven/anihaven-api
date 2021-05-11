@@ -1,5 +1,6 @@
 const Sequelize = require('sequelize')
 const mysql = require('mysql2/promise')
+const {DataTypes} = require("sequelize");
 
 // --=[Get Variables]=-- //
 const database_name = process.env.MYSQL_DATABASE || 'anihaven'
@@ -8,7 +9,7 @@ const database_password = process.env.MYSQL_PASSWORD || 'password'
 const host = process.env.MYSQL_HOST || 'localhost'
 const port = process.env.MYSQL_PORT || '3306'
 
-initialize().then(r => module.exports = r)
+// initialize().then(r => module.exports = r)
 
 async function initialize() {
     // --=[Connect to Database first and check for database]=-- //
@@ -20,7 +21,12 @@ async function initialize() {
         host: host,
         port: port,
         dialect: 'mysql',
-        define: {},
+        define: {
+            // We need utf8 to have Japanese characters, in titles and stuff
+            charset: 'utf8',
+            collate: 'utf8_general_ci',
+            timestamps: true
+        },
         pool: {
             max: 5,
             min: 0,
@@ -47,6 +53,7 @@ async function initialize() {
         require('./models/staff.model'),
         require('./models/studio.model'),
         require('./models/tag.model'),
+        require('./models/title.model'),
         // require('./models/user.model'),
         require('./models/video.model'),
         require('./models/video_storage.model')
@@ -58,10 +65,14 @@ async function initialize() {
     })
 
     // --=[Add associations]=-- //
-    const { Content, Country, License, Staff, Studio, Tag, Video, VideoStorage } = sequelize.models
+    const { Content, Country, License, Staff, Studio, Tag, Title, Video, VideoStorage } = sequelize.models
     // Content can have many tags, like Black Clover can have Shounen and Action, and Re:Zero can have Isekai and Despair or some shit lol
     Content.hasMany(Tag, { foreignKey: 'ContentId' })
     Tag.belongsTo(Content, { foreignKey: 'ContentId' })
+    // Title belongs to content, content belongs to title
+    Content.hasOne(Title, { foreignKey: 'ContentId' })
+    Title.belongsTo(Content, { foreignKey: 'ContentId' })
+
     // Content can have multiple studios, like Bones and/or Madhouse - studios can have multiple content
     StudioContent = sequelize.define('studio_content', {}, { tableName: 'StudioContent', timestamps: false })
     Content.belongsToMany(Studio, { through: StudioContent })
@@ -87,7 +98,14 @@ async function initialize() {
     Studio.belongsToMany(Staff, { through: StudioStaff })
     Staff.belongsToMany(Studio, { through: StudioStaff })
     // Staff can have worked on a variety of content
-    StaffContent = sequelize.define('staff_content', {}, { tableName: 'StaffContent', timestamps: false })
+    StaffContent = sequelize.define('staff_content', {
+        position: {
+            allowNull: true,
+            type: DataTypes.STRING
+        }}, { tableName: 'StaffContent', timestamps: false, name: {
+            singular: "StaffContent",
+            plural: "StaffContent"
+        } })
     Content.belongsToMany(Staff, { through: StaffContent })
     Staff.belongsToMany(Content, { through: StaffContent })
 
@@ -109,3 +127,5 @@ async function initialize() {
     // --=[Export database]=-- /
     return sequelize
 }
+
+module.exports.initialize = initialize

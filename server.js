@@ -3,7 +3,6 @@ const koaRouter = require('@koa/router')
 const koaBody = require('koa-bodyparser')
 const { ApolloServer } = require('apollo-server-koa') // https://www.apollographql.com/docs/apollo-server/v1/servers/koa/
 const dotenv = require('dotenv')
-const { schema } = require('./graphql/schema.js')
 
 const dev = process.env.NODE_ENV !== 'production'
 if (dev) {
@@ -11,19 +10,19 @@ if (dev) {
 }
 const port = parseInt(process.env.PORT, 10) || 3080
 
-const UserAPI = require('./graphql/datasources/user')
-const ContentAPI = require('./graphql/datasources/content')
-
-function createApolloServer() {
-    // Import our GraphQL schema
+async function createApolloServer(contentDB) {
+    const { schema } = require('./graphql/schema.js')
     console.log(schema)
+
+    const UserAPI = require('./graphql/datasources/user')
+    const ContentAPI = require('./graphql/datasources/content')
 
     // Create the server running off of our schema
     const server = new ApolloServer({
         schema: schema,
         dataSources: () => ({
-            contentAPI: new ContentAPI(),
-            userAPI: new UserAPI()
+            contentAPI: new ContentAPI({ contentDB }),
+            userAPI: new UserAPI({ })
         }),
         playground: dev
     })
@@ -31,7 +30,7 @@ function createApolloServer() {
     return server
 }
 
-function createKoaApp() {
+async function createKoaApp() {
     // Setup router
     const router = new koaRouter()
         .all('(.*)', async (ctx, next) => {
@@ -43,8 +42,14 @@ function createKoaApp() {
             await next()
         })
 
+    // Create database
+    const database = require('./database/database')
+    const contentDB = await database.initialize()
+
+    console.log(contentDB.models)
+
     // Apollo server
-    const apolloServer = createApolloServer()
+    const apolloServer = await createApolloServer(contentDB)
 
     // Setup app with all the middleware
     const app = new koa()
@@ -64,9 +69,9 @@ function createKoaApp() {
 }
 
 // Create the koa application
-const app = createKoaApp()
-
-// Listen to port
-app.listen(port, () => {
-    console.log(`🚀 API server ready on http://localhost:${port}`)
+createKoaApp().then((app) => {
+    // Listen to port
+    app.listen(port, () => {
+        console.log(`🚀 API server ready on http://localhost:${port}`)
+    })
 })

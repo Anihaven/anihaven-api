@@ -6,7 +6,8 @@ type Query {
 # License type
 type License {
     id: ID!
-    videos: [Video]!
+    videos: [Video]
+    content: [Content]
     countries: [Country]
     from_date: Date
     to_date: Date

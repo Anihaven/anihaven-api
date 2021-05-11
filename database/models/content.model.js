@@ -16,7 +16,7 @@ module.exports = (sequelize) => {
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-        title: {
+        titleId: {
             allowNull: false,
             unique: true,
             type: DataTypes.STRING

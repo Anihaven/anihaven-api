@@ -6,6 +6,7 @@ type Query {
 # Content type
 type Content {
     id: ID!
+    titleId: String
     title: Title!
     format: Format!
     studios: [Studio]

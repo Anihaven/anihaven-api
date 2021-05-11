@@ -10,6 +10,11 @@ module.exports = {
             }])
         }
     },
+    StaffPosition: {
+        staff(staffposition, args, context) {
+            return context.dataSources.contentAPI.getStaffFromStaffPosition(staffposition)
+        }
+    },
     Staff: {
 
     }

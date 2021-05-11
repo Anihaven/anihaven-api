@@ -3,20 +3,28 @@ const { Model, DataTypes } = require('sequelize')
 // We export a function that defines the model.
 // This function will automatically receive as parameter the Sequelize connection object.
 module.exports = (sequelize) => {
-    class Staff extends Model {}
+    class Title extends Model {}
 
-    Staff.init({
+    Title.init({
         id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-        name: {
-            allowNull: false,
+        romaji: {
+            allowNull: true,
+            type: DataTypes.STRING
+        },
+        english: {
+            allowNull: true,
+            type: DataTypes.STRING
+        },
+        native: {
+            allowNull: true,
             type: DataTypes.STRING
         }
     }, { sequelize,
-        tableName: 'Staff'
+        tableName: 'Titles'
     })
 }

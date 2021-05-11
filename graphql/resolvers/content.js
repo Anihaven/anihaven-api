@@ -1,9 +1,7 @@
 module.exports = {
     Query: {
         getContentByID(content, { id }, context) {
-            return ({
-                id: 1
-            })
+            return context.dataSources.contentAPI.getContentFromId(id)
         },
         getAllContent(_, __, context) {
             return ([
@@ -21,57 +19,25 @@ module.exports = {
     },
     Content: {
         title(content, args, context) {
-            console.log(content)
-            if (content.id === 1) {
-                return ({
-                    romaji: "Howl's moving castle",
-                    english: "Howl's moving castle",
-                    native: "Howl's moving castle"
-                })
-            }
-            else {
-                return ({
-                    romaji: "fuck",
-                    english: "frick",
-                    native: "fucku"
-                })
-            }
-        },
-        format(content, args, context) {
-            return ('MOVIE')
+            return context.dataSources.contentAPI.getTitlesFromContent(content)
         },
         studios(content, args, context) {
-            return ([{
-                id: 1,
-                name: "Ghibli"
-            }])
+            return context.dataSources.contentAPI.getStudiosFromContent(content)
         },
         staff(content, args, context) {
-            return ([{
-                position: "CREATOR",
-                staff: {
-                    id: 1,
-                    name: "Hero"
-                }
-            }])
+            return context.dataSources.contentAPI.getStaffFromContent(content)
         },
-        tags(content, args, context) {
-            return (["ISEKAI", "ACTION"])
+        tags: async (content, args, context) => {
+            const rawTags = await context.dataSources.contentAPI.getTagsFromContent(content)
+            const tags = []
+            rawTags.forEach(tag => tags.push(tag.dataValues.name))
+            return tags
         },
         videos(content, args, context) {
-            return ([{
-                id: 1,
-                name: "Howl's Moving Castle Movie",
-                videostorage: [{
-                    id: 1,
-                    path: "mmh/mmmh/nice/",
-                    resolution: "res720",
-                    format: "mp4"
-                }]
-            }])
+            return context.dataSources.contentAPI.getVideosFromContent(content)
         },
         license(content, args, context) {
-            return null
+            return context.dataSources.contentAPI.getLicensesFromContent(content)
         }
     }
 }

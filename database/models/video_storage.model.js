@@ -19,12 +19,12 @@ module.exports = (sequelize) => {
         },
         // Path to the video on storage - not needed, as it will then just try "content_title/video_title [quality].fileEnding"
         path: {
-            allowNull: false,
+            allowNull: true,
             type: DataTypes.STRING
         },
         resolution: {
             allowNull: false,
-            type: DataTypes.ENUM(['240', '360', '480', '720', '1080', '1440', '2160'])
+            type: DataTypes.ENUM(['res240', 'res360', 'res480', 'res720', 'res1080', 'res1440', 'res2160'])
         },
         format: {
             allowNull: false,

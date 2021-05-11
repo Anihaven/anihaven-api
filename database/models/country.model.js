@@ -34,6 +34,7 @@ module.exports = (sequelize) => {
             type: DataTypes.STRING(2)
         }
     }, { sequelize,
-        tableName: 'Countries'
+        tableName: 'Countries',
+        timestamps: false
     })
 }
