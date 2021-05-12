@@ -4,9 +4,7 @@ const { Model, DataTypes } = require('sequelize')
 // This function will automatically receive as parameter the Sequelize connection object.
 module.exports = (sequelize) => {
     class License extends Model {
-        getCountries() {
-            return this.countries.toString()
-        }
+
     }
 
     License.init({

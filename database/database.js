@@ -90,7 +90,7 @@ async function initialize() {
     License.belongsToMany(Video, { through: LicenseVideo })
     // A license can have multiple countries it's available in, and a country can have multiple licenses
     LicenseCountry = sequelize.define('license_country', {}, { tableName: 'LicenseCountries', timestamps: false })
-    License.belongsToMany(Country, { through: LicenseCountry })
+    License.belongsToMany(Country, { through: LicenseCountry})
     Country.belongsToMany(License, { through: LicenseCountry })
 
     // Studios can have multiple staff and Staff can be in multiple studios, I guess?
@@ -98,16 +98,16 @@ async function initialize() {
     Studio.belongsToMany(Staff, { through: StudioStaff })
     Staff.belongsToMany(Studio, { through: StudioStaff })
     // Staff can have worked on a variety of content
-    StaffContent = sequelize.define('staff_content', {
+    ContentStaff = sequelize.define('content_staff', {
         position: {
             allowNull: true,
             type: DataTypes.STRING
-        }}, { tableName: 'StaffContent', timestamps: false, name: {
-            singular: "StaffContent",
-            plural: "StaffContent"
+        }}, { tableName: 'ContentStaff', timestamps: false })
+    Content.belongsToMany(Staff, { through: ContentStaff, as: {
+        singular: "Staff",
+        plural: "Staff"
         } })
-    Content.belongsToMany(Staff, { through: StaffContent })
-    Staff.belongsToMany(Content, { through: StaffContent })
+    Staff.belongsToMany(Content, { through: ContentStaff })
 
     // A video can have multiple actual video files
     VideoStorage.belongsTo(Video, { foreignKey: 'VideoId' })

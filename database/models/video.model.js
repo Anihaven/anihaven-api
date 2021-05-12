@@ -13,7 +13,7 @@ module.exports = (sequelize) => {
             type: DataTypes.INTEGER
         },
         title: {
-            allowNull: false,
+            allowNull: true,
             type: DataTypes.STRING
         },
         episode: {

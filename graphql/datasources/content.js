@@ -45,7 +45,21 @@ class ContentAPI extends DataSource {
 
     // Get license
     async getLicensesFromContent(content) {
-        return await content.getLicenses()
+        const licenses = await content.getLicenses()
+        console.log(licenses)
+        return licenses
+    }
+
+    async getCountriesFromLicense(license) {
+        return await license.getCountries()
+    }
+
+    async getContentFromLicense(license) {
+        return await license.getContent()
+    }
+
+    async getVideosFromLicense(license) {
+        return await license.getVideos()
     }
 
     // Get videos
@@ -57,12 +71,17 @@ class ContentAPI extends DataSource {
         return await video.getVideoStorages()
     }
 
+    async getLicensesFromVideo(video) {
+        return await video.getLicenses()
+    }
+
     // Get staff positions on content
     async getStaffFromContent(content) {
-        console.log(content)
-        console.log(Object.keys(content))
-        console.log(content.getAssociations())
-        return await content.getStaffContent()
+        const staffcontent = await content.getStaff()
+        // { include: [{ model: this.store.models.content_staff, as: "position" }] }
+        console.log(staffcontent)
+        console.log(staffcontent[0].dataValues.content_staff)
+        return staffcontent
     }
 
     // Get studios working on content

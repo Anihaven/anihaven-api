@@ -6,18 +6,18 @@ type Query {
 # Video type
 type Video {
     id: ID!
-    name: String!
+    title: String
     release_date: Date
     episode: Int
     season: Int
     videostorage: [VideoStorage]!
-    license: License
+    license: [License]
 }
 
 type VideoStorage {
     id: ID!
     storage: Storage
-    path: String!
+    path: String
     resolution: Resolution!
     format: FileFormat!
 }

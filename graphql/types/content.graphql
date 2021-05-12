@@ -10,11 +10,11 @@ type Content {
     title: Title!
     format: Format!
     studios: [Studio]
-    staff: [StaffPosition]
+    staffpositions: [StaffPosition]
     tags: [Tag]
     videos: [Video]
     # If it has a series-wide license
-    license: License
+    license: [License]
 }
 
 enum Format {

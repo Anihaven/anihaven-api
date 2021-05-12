@@ -7,18 +7,18 @@ type Query {
 type Staff {
     id: ID!
     name: String!
-    content: [Content]
+    positions: [StaffPosition]
 }
 
 type StaffPosition {
-    position: Position!
+    position: String
     staff: Staff!
     content: Content!
 }
 
-enum Position {
-    CREATOR
-    DIRECTOR
-    COMPOSITION
-    MUSIC
-}
+#enum Position {
+#    CREATOR
+#    DIRECTOR
+#    COMPOSITION
+#    MUSIC
+#}

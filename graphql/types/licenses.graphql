@@ -13,8 +13,9 @@ type License {
     to_date: Date
 }
 
-enum Country {
-    DENMARK
-    ITALY
-    GERMANY
+type Country {
+    id: ID!
+    name: String!
+    countryCode: String!
+    languageCode: String!
 }
