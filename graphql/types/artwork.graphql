@@ -1,0 +1,35 @@
+type Query {
+    getArtwork(id: ID!): Artwork
+    getThumbnail(id: ID!): Thumbnail
+}
+
+# Artwork type
+type Artwork {
+    id: ID!
+    type: ArtworkType!
+    format: ArtworkFormat!
+    storage: Storage
+    filename: String
+    url: String
+}
+
+# Thumbnail type
+type Thumbnail {
+    id: ID!
+    format: ArtworkFormat!
+    storage: Storage
+    filename: String
+    url: String
+}
+
+enum ArtworkType {
+    POSTER
+    BANNER
+}
+
+enum ArtworkFormat {
+    png
+    jpg
+    jpeg
+    svg
+}

@@ -3,18 +3,11 @@ module.exports = {
         getContentByID(content, { id }, context) {
             return context.dataSources.contentAPI.getContentFromId(id)
         },
+        getContentByTitleID(content, { titleId }, context) {
+            return context.dataSources.contentAPI.getContentFromTitleId(titleId)
+        },
         getAllContent(_, __, context) {
-            return ([
-                {
-                    id: 1
-                },
-                {
-                    id: 2
-                },
-                {
-                    id: 3
-                }
-            ])
+            return context.dataSources.contentAPI.getContent()
         }
     },
     Content: {
@@ -44,6 +37,15 @@ module.exports = {
         },
         license(content, args, context) {
             return context.dataSources.contentAPI.getLicensesFromContent(content)
+        },
+        artwork(content, args, context) {
+            return context.dataSources.contentAPI.getArtworkFromContent(content)
+        },
+        poster(content, args, context) {
+            return context.dataSources.contentAPI.getPosterFromContent(content)
+        },
+        banner(content, args, context) {
+            return context.dataSources.contentAPI.getBannerFromContent(content)
         }
     }
 }

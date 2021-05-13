@@ -28,6 +28,16 @@ class ContentAPI extends DataSource {
         return res
     }
 
+    async getContentFromTitleId(titleId) {
+        // console.log("get content from titleId")
+        // console.log(titleId)
+        const res = await this.store.models.Content.findOne({
+            where: { titleId }
+        })
+        // console.log(res)
+        return res
+    }
+
     async getContent() {
         const res = await this.store.models.Content.findAll()
         return res && res.length ? res : false
@@ -62,6 +72,23 @@ class ContentAPI extends DataSource {
         return await license.getVideos()
     }
 
+    // Artwork
+    async getArtworkFromContent(content) {
+        return await content.getArtworks()
+    }
+
+    async getPosterFromContent(content) {
+        return await content.getPoster()
+    }
+
+    async getBannerFromContent(content) {
+        return await content.getBanner()
+    }
+
+    async getThumbnailFromVideo(video) {
+        return await video.getThumbnail()
+    }
+
     // Get videos
     async getVideosFromContent(content) {
         return await content.getVideos()
@@ -79,8 +106,6 @@ class ContentAPI extends DataSource {
     async getStaffFromContent(content) {
         const staffcontent = await content.getStaff()
         // { include: [{ model: this.store.models.content_staff, as: "position" }] }
-        console.log(staffcontent)
-        console.log(staffcontent[0].dataValues.content_staff)
         return staffcontent
     }
 
@@ -94,6 +119,47 @@ class ContentAPI extends DataSource {
     // Get staff from a staff position
     async getStaffFromStaffPosition(staffposition) {
         return await staffposition.getStaff()
+    }
+
+    // Storage
+    async getStorageFromChild(child) {
+        return await child.getStorage()
+    }
+
+    async getStorageURLFromChild(child) {
+        // We need a storage to get the URL
+        let storage = null
+        if (child.storage) {
+            storage = child.storage
+        }
+
+        if (!storage || !storage.endpoint) {
+            storage = await this.getStorageFromChild(child)
+        }
+
+        // Get filename
+        let filename = ""
+        if (child.filename) {
+            filename = child.filename
+        }
+        else {
+            filename = child.id.toString()
+        }
+
+        // console.log(storage)
+        // console.log(child)
+        // console.log(child.constructor.name)
+        switch (child.constructor.name) {
+            case "Artwork":
+            case "Thumbnail":
+                return "https://"+storage.endpoint+"/artworks/"+child.type.toLowerCase()+"s/"+child.ContentId.toString()+"/"+filename+"."+child.format
+            case "VideoStorage":
+                const video = await child.getVideo()
+                const content = await video.getContent()
+                return "https://"+storage.endpoint+"/content/"+content.id.toString()+"/"+video.id.toString()+"/"+filename+"."+child.format
+            default:
+                return null
+        }
     }
 }
 

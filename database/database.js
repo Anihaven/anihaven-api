@@ -47,12 +47,15 @@ async function initialize() {
 
     // --=[Initialize models]=-- //
     let models = [
+        require('./models/artwork.model'),
         require('./models/content.model'),
         require('./models/country.model'),
         require('./models/license.model'),
         require('./models/staff.model'),
+        require('./models/storage.model'),
         require('./models/studio.model'),
         require('./models/tag.model'),
+        require('./models/thumbnail.model'),
         require('./models/title.model'),
         // require('./models/user.model'),
         require('./models/video.model'),
@@ -65,7 +68,7 @@ async function initialize() {
     })
 
     // --=[Add associations]=-- //
-    const { Content, Country, License, Staff, Studio, Tag, Title, Video, VideoStorage } = sequelize.models
+    const { Artwork, Content, Country, License, Staff, Storage, Studio, Tag, Thumbnail, Title, Video, VideoStorage } = sequelize.models
     // Content can have many tags, like Black Clover can have Shounen and Action, and Re:Zero can have Isekai and Despair or some shit lol
     Content.hasMany(Tag, { foreignKey: 'ContentId' })
     Tag.belongsTo(Content, { foreignKey: 'ContentId' })
@@ -115,6 +118,31 @@ async function initialize() {
     // Content can have many videos
     Video.belongsTo(Content, { foreignKey: 'ContentId' })
     Content.hasMany(Video, { foreignKey: 'ContentId' })
+
+    // Artwork
+    Content.hasMany(Artwork, { foreignKey: 'ContentId' })
+    Artwork.belongsTo(Content, { foreignKey: 'ContentId' })
+    Video.hasOne(Thumbnail, { foreignKey: 'VideoId' })
+    Thumbnail.belongsTo(Video, { foreignKey: 'VideoId' })
+    // Content can have a poster and some artwork
+    Content.belongsTo(Artwork, { as: 'Poster', constraints: false })
+    Content.belongsTo(Artwork, { as: 'Banner', constraints: false })
+
+    // Storage
+    Storage.hasMany(VideoStorage, { foreignKey: 'StorageId' })
+    VideoStorage.belongsTo(Storage, { foreignKey: 'StorageId' })
+    Storage.hasMany(Artwork, { foreignKey: 'StorageId' })
+    Artwork.belongsTo(Storage, { foreignKey: 'StorageId' })
+    Storage.hasMany(Thumbnail, { foreignKey: 'StorageId' })
+    Thumbnail.belongsTo(Storage, { foreignKey: 'StorageId' })
+
+
+    // VideoStorage.hasOne(Storage)
+    // Storage.hasMany(VideoStorage)
+    // Artwork.hasOne(Storage)
+    // Storage.hasMany(Artwork)
+    // Thumbnail.hasOne(Storage)
+    // Storage.hasMany(Thumbnail)
 
     // Users can have a watchlist of content
     // WatchList = sequelize.define('watchlist', {})

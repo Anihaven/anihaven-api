@@ -1,0 +1,6 @@
+type Storage {
+    id: ID!
+    name: String
+    endpoint: String!
+    isS3: Boolean!
+}

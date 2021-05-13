@@ -23,6 +23,10 @@ module.exports = (sequelize) => {
         season: {
             allowNull: true,
             type: DataTypes.INTEGER
+        },
+        description: {
+            allowNull: true,
+            type: DataTypes.STRING
         }
     }, { sequelize,
         tableName: 'Videos'

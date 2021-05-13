@@ -3,39 +3,30 @@ const { Model, DataTypes } = require('sequelize')
 // We export a function that defines the model.
 // This function will automatically receive as parameter the Sequelize connection object.
 module.exports = (sequelize) => {
-    class Content extends Model {
-        getContentURL() {
-            return this.id.toString()
-        }
-    }
+    class Artwork extends Model {}
 
-    Content.init({
+    Artwork.init({
         id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: DataTypes.INTEGER
         },
-        titleId: {
+        type: {
             allowNull: false,
-            unique: true,
-            type: DataTypes.STRING
+            type: DataTypes.ENUM({
+                values: ['POSTER', 'BANNER']
+            })
         },
         format: {
             allowNull: false,
-            type: DataTypes.ENUM({
-                values: ['SERIES', 'MOVIE', 'SPECIAL', 'OVA', 'ONA']
-            })
+            type: DataTypes.ENUM(['png', 'jpg', 'svg', 'jpeg'])
         },
-        description: {
-            allowNull: true,
-            type: DataTypes.STRING(2000)
-        },
-        shortdescription: {
+        filename: {
             allowNull: true,
             type: DataTypes.STRING
         }
     }, { sequelize,
-        tableName: 'Content'
+        tableName: 'ContentArtwork'
     })
 }

@@ -7,23 +7,22 @@ type Query {
 type Video {
     id: ID!
     title: String
+    description: String
     release_date: Date
     episode: Int
     season: Int
     videostorage: [VideoStorage]!
     license: [License]
+    thumbnail: Thumbnail
 }
 
 type VideoStorage {
     id: ID!
     storage: Storage
-    path: String
+    filename: String
     resolution: Resolution!
     format: FileFormat!
-}
-
-enum Storage {
-    B2_Anihaven
+    url: String
 }
 
 # GraphQL only supports strings
