@@ -1,6 +1,5 @@
 type Query {
-    video(id: ID!): Video
-    videos: [Video]
+    video(id: ID): [Video]
 }
 
 # Video type

@@ -94,6 +94,13 @@ class ContentAPI extends DataSource {
         return await content.getVideos()
     }
 
+    async getVideoFromVideoId(id) {
+        const res = await this.store.models.Videos.findOne({
+            where: { id }
+        })
+        return res
+    }
+
     async getVideoStorageFromVideo(video) {
         return await video.getVideoStorages()
     }

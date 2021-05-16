@@ -1,8 +1,11 @@
 module.exports = {
-    // Query: {
-    //     video: async (obj, args, context, info) =>
-    //         db.tickets.findByPk(args.id),
-    // }
+    Query: {
+        video(video, { id }, context) {
+            if (id) {
+                return context.dataSources.contentAPI.getVideoFromVideoId()
+            }
+        }
+    },
     Video: {
         videostorage(video, args, context) {
             return context.dataSources.contentAPI.getVideoStorageFromVideo(video)

@@ -1,7 +1,5 @@
 type Query {
-    getContentByID(id: ID!): Content
-    getContentByTitleID(titleId: String!): Content
-    getAllContent: [Content]
+    content(id: ID, titleId: String): [Content]
 }
 
 # Content type

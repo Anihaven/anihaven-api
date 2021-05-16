@@ -1,13 +1,15 @@
 module.exports = {
     Query: {
-        getContentByID(content, { id }, context) {
-            return context.dataSources.contentAPI.getContentFromId(id)
-        },
-        getContentByTitleID(content, { titleId }, context) {
-            return context.dataSources.contentAPI.getContentFromTitleId(titleId)
-        },
-        getAllContent(_, __, context) {
-            return context.dataSources.contentAPI.getContent()
+        content(content, { id, titleId }, context) {
+            if (id) {
+                return [context.dataSources.contentAPI.getContentFromId(id)]
+            }
+            else if (titleId) {
+                return [context.dataSources.contentAPI.getContentFromTitleId(titleId)]
+            }
+            else {
+                return context.dataSources.contentAPI.getContent()
+            }
         }
     },
     Content: {
