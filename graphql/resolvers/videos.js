@@ -1,9 +1,7 @@
 module.exports = {
     Query: {
         video(video, { id }, context) {
-            if (id) {
-                return context.dataSources.contentAPI.getVideoFromVideoId()
-            }
+            return [context.dataSources.contentAPI.getVideoFromVideoId(id)]
         }
     },
     Video: {
