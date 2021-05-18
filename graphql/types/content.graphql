@@ -1,5 +1,5 @@
 type Query {
-    content(id: ID, titleId: String): [Content]
+    content(id: ID, titleId: String, format: String, tags: [String], search: String): [Content]
 }
 
 # Content type

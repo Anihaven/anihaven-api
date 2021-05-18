@@ -1,4 +1,5 @@
 const { DataSource } = require('apollo-datasource')
+const { Op } = require("sequelize")
 
 class ContentAPI extends DataSource {
     constructor({ contentDB }) {
@@ -18,29 +19,71 @@ class ContentAPI extends DataSource {
     }
 
     // Content
-    async getContentFromId(id) {
-        // console.log("get content from id")
-        // console.log(id)
-        const res = await this.store.models.Content.findOne({
-            where: { id }
-        })
-        // console.log(res)
-        return res
-    }
+    // async getContentFromId(id) {
+    //     // console.log("get content from id")
+    //     // console.log(id)
+    //     const res = await this.store.models.Content.findOne({
+    //         where: { id }
+    //     })
+    //     // console.log(res)
+    //     return res
+    // }
+    //
+    // async getContentFromTitleId(titleId) {
+    //     // console.log("get content from titleId")
+    //     // console.log(titleId)
+    //     const res = await this.store.models.Content.findOne({
+    //         where: { titleId }
+    //     })
+    //     // console.log(res)
+    //     return res
+    // }
+    //
+    // async getContent() {
+    //     const res = await this.store.models.Content.findAll()
+    //     return res && res.length ? res : false
+    // }
 
-    async getContentFromTitleId(titleId) {
-        // console.log("get content from titleId")
-        // console.log(titleId)
-        const res = await this.store.models.Content.findOne({
-            where: { titleId }
-        })
-        // console.log(res)
-        return res
-    }
+    async getContent(id, titleId, format, tags, search) {
+        let conditions = {}
+        let includes = []
+        if (id) {
+            conditions.id = id
+        }
+        if (titleId) {
+            conditions.titleId = titleId
+        }
+        if (format) {
+            conditions.format = format
+        }
+        if (tags) {
+            includes.push({model: this.store.models.Tag, as: "Tags", where: {
+                name: {[Op.and]: tags}
+                }})
+        }
+        if (search) {
+            includes.push({model: this.store.models.Title, as: "Title", where: {
+                    [Op.or]: [
+                        {
+                            romaji: { [Op.like]: "%"+search+"%" }
+                        },
+                        {
+                            english: { [Op.like]: "%"+search+"%" }
+                        },
+                        {
+                            native: { [Op.like]: "%"+search+"%" }
+                        }
+                    ]
+                }})
+        }
+        console.log("include:", includes)
+        console.log("where:", conditions)
 
-    async getContent() {
-        const res = await this.store.models.Content.findAll()
-        return res && res.length ? res : false
+        const res = await this.store.models.Content.findAll({
+            include: includes,
+            where: conditions
+        })
+        return res
     }
 
     // Get title
