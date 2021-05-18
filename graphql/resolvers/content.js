@@ -1,7 +1,7 @@
 module.exports = {
     Query: {
         content(content, { id, titleId, format, tags, search }, context) {
-            console.log(id, titleId, format, tags, search)
+            // console.log(id, titleId, format, tags, search)
             return context.dataSources.contentAPI.getContent(id, titleId, format, tags, search)
             // if (id) {
             //     return [context.dataSources.contentAPI.getContentFromId(id)]

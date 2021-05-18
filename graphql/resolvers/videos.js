@@ -10,6 +10,9 @@ module.exports = {
         },
         license(video, args, context) {
             return context.dataSources.contentAPI.getLicensesFromVideo(video)
+        },
+        thumbnail(video, args, context) {
+            return context.dataSources.contentAPI.getThumbnailFromVideo(video)
         }
     },
     VideoStorage: {

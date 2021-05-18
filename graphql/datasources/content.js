@@ -197,16 +197,21 @@ class ContentAPI extends DataSource {
             filename = child.id.toString()
         }
 
-        // console.log(storage)
-        // console.log(child)
-        // console.log(child.constructor.name)
+        console.log(storage)
+        console.log(child)
+        console.log(child.constructor.name)
+        let video = undefined
+        let content = undefined
         switch (child.constructor.name) {
             case "Artwork":
-            case "Thumbnail":
                 return "https://"+storage.endpoint+"/artworks/"+child.type.toLowerCase()+"s/"+child.ContentId.toString()+"/"+filename+"."+child.format
+            case "Thumbnail":
+                video = await child.getVideo()
+                content = await video.getContent()
+                return "https://"+storage.endpoint+"/artworks/thumbnails/"+content.id.toString()+"/"+filename+"."+child.format
             case "VideoStorage":
-                const video = await child.getVideo()
-                const content = await video.getContent()
+                video = await child.getVideo()
+                content = await video.getContent()
                 return "https://"+storage.endpoint+"/content/"+content.id.toString()+"/"+video.id.toString()+"/"+filename+"."+child.format
             default:
                 return null
