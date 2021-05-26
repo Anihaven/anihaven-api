@@ -13,7 +13,16 @@ const port = process.env.MYSQL_PORT || '3306'
 
 async function initialize() {
     // --=[Connect to Database first and check for database]=-- //
-    const connection = await mysql.createConnection({ host: host, port: port, user: database_user, password: database_password })
+    let connection = undefined
+    while (connection === undefined) {
+        connection = await mysql.createConnection({ host: host, port: port, user: database_user, password: database_password }).catch((e) => {
+            console.log(e)
+        })
+        if (!connection) {
+            console.log("Cannot connect to database")
+            await new Promise(resolve => setTimeout(resolve, 5000))
+        }
+    }
     await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database_name}\`;`)
 
     // --=[Initialize Database Connection]=-- //
